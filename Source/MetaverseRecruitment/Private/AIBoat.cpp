@@ -1,20 +1,20 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TestBoat.h"
+#include "AIBoat.h"
 
-ATestBoat::ATestBoat()
+AAIBoat::AAIBoat()
 {
 
 }
 
-void ATestBoat::SetController(AController* Temp)
+void AAIBoat::SetController(AController* Temp)
 {
 	controller = Temp;
 }
 
 // Called when the game starts or when spawned
-void ATestBoat::BeginPlay()
+void AAIBoat::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -22,7 +22,7 @@ void ATestBoat::BeginPlay()
 }
 
 // Called every frame
-void ATestBoat::Tick(float DeltaTime)
+void AAIBoat::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }

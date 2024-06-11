@@ -5,18 +5,18 @@
 #include "CoreMinimal.h"
 #include "BaseBoat.h"
 #include "CustomAIController.h"
-#include "TestBoat.generated.h"
+#include "AIBoat.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class METAVERSERECRUITMENT_API ATestBoat : public ABaseBoat
+class METAVERSERECRUITMENT_API AAIBoat : public ABaseBoat
 {
 	GENERATED_BODY()
 
 public:
-	ATestBoat();
+	AAIBoat();
 
 protected:
 	// Called when the game starts or when spawned

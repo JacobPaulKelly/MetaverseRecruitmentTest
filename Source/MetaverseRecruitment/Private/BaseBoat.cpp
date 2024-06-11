@@ -15,8 +15,12 @@ ABaseBoat::ABaseBoat()
 	Acceleration = {0, 0, 0 };
 	MaxForce = 0;
 	MaxSpeed = 0;
-		
+	
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	RootComponent = Root;
+
 	BoatMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Boat Mesh"));
+	BoatMeshComponent->SetupAttachment(Root);
 }
 
 // Called when the game starts or when spawned
@@ -24,6 +28,10 @@ void ABaseBoat::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ABaseBoat::SetController(AController* Temp)
+{
 }
 
 // Called every frame

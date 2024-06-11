@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/Controller.h"
 #include "BaseBoat.generated.h"
+
 
 
 UCLASS()
@@ -23,16 +25,22 @@ protected:
 	UPROPERTY(EditAnywhere, meta=(ClampMin = 0))
 	float Mass;
 	
+	
 	FVector Position;
 	FVector Velocity;
 	FVector Acceleration;
 	float MaxForce;
 	float MaxSpeed;
 
+	UPROPERTY()
+	USceneComponent* Root;
+
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* BoatMeshComponent;
 
+	AController* controller;
 
+	virtual void SetController(AController* Temp);
 
 
 public:	
