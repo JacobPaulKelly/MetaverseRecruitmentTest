@@ -3,25 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "GameFramework/Controller.h"
-#include "BaseBoat.generated.h"
-
-
+#include "GameFramework/Pawn.h"
+#include "MetaverseBaseBoat.generated.h"
 
 UCLASS()
-class METAVERSERECRUITMENT_API ABaseBoat : public AActor
+class METAVERSERECRUITMENT_API AMetaverseBaseBoat : public APawn
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	ABaseBoat();
+
+public:
+	// Constructor to sets default values for this actor's properties.
+	AMetaverseBaseBoat();
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
+	virtual void BeginPlay() override; 
+	
 	UPROPERTY(EditAnywhere, meta=(ClampMin = 0))
 	float Mass;
 	
@@ -38,13 +35,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* BoatMeshComponent;
 
-	AController* controller;
-
-	virtual void SetController(AController* Temp);
-
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

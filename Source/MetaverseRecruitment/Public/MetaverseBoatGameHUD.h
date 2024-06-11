@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseBoat.h"
-#include "PlayerBoat.generated.h"
+#include "GameFramework/HUD.h"
+#include "MetaverseBoatGameHUD.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class METAVERSERECRUITMENT_API APlayerBoat : public ABaseBoat
+class METAVERSERECRUITMENT_API AMetaverseBoatGameHUD : public AHUD
 {
 	GENERATED_BODY()
 	

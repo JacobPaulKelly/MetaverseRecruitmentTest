@@ -9,9 +9,12 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class METAVERSERECRUITMENT_API ACustomPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+public:
+	// Constructor to sets default values for this actor's properties.
+	ACustomPlayerController();
 };

@@ -3,3 +3,8 @@
 
 #include "CustomPlayerController.h"
 
+// Constructor to sets default values for this actor's properties.
+ACustomPlayerController::ACustomPlayerController()
+{
+	
+}
