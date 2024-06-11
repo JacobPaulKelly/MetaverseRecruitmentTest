@@ -6,9 +6,17 @@
 // Sets default values
 ABaseBoat::ABaseBoat()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Mass = 0;
+	Position = { 0, 0, 0 };
+	Velocity = { 0, 0, 0 };
+	Acceleration = {0, 0, 0 };
+	MaxForce = 0;
+	MaxSpeed = 0;
+		
+	BoatMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Boat Mesh"));
 }
 
 // Called when the game starts or when spawned

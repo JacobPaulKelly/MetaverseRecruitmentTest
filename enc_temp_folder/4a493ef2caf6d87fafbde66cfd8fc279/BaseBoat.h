@@ -20,7 +20,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, meta=(ClampMin = 0))
+	UPROPERTY(EditAnywhere)
 	float Mass;
 	
 	FVector Position;
