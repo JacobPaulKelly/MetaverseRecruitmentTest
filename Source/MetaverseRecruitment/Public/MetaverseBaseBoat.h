@@ -35,6 +35,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* BoatMeshComponent;
 
+private:
+	const float MinBounceHeight = -300;
+	
+	const float MaxBounceHeight = 300;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

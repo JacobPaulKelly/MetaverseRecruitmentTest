@@ -52,6 +52,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UCameraComponent* CameraComponent;
 
+	float AccelerationRate;
 
 public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
