@@ -36,21 +36,21 @@ void AMetaverseBaseBoat::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (BoatMeshComponent->GetComponentLocation().Z < 0)
-	{
-		BoatMeshComponent->AddForce(FVector(0,0,185000000000)*GetWorld()->DeltaTimeSeconds);
-	}
-
-	//Clamping the bounce height incase of bad frames
-	if (BoatMeshComponent->GetComponentLocation().Z < MinBounceHeight)
-	{
-		BoatMeshComponent->SetWorldLocation(FVector(BoatMeshComponent->GetComponentLocation().X, BoatMeshComponent->GetComponentLocation().Y, MinBounceHeight));
-	}
-
-	if (BoatMeshComponent->GetComponentLocation().Z > MaxBounceHeight)
-	{
-		BoatMeshComponent->SetWorldLocation(FVector(BoatMeshComponent->GetComponentLocation().X, BoatMeshComponent->GetComponentLocation().Y, MaxBounceHeight));
-	}
+	// if (BoatMeshComponent->GetComponentLocation().Z < 0)
+	// {
+	// 	BoatMeshComponent->AddForce(FVector(0,0,185000000000)*GetWorld()->DeltaTimeSeconds);
+	// }
+	//
+	// //Clamping the bounce height incase of bad frames
+	// if (BoatMeshComponent->GetComponentLocation().Z < MinBounceHeight)
+	// {
+	// 	BoatMeshComponent->SetWorldLocation(FVector(BoatMeshComponent->GetComponentLocation().X, BoatMeshComponent->GetComponentLocation().Y, MinBounceHeight));
+	// }
+	//
+	// if (BoatMeshComponent->GetComponentLocation().Z > MaxBounceHeight)
+	// {
+	// 	BoatMeshComponent->SetWorldLocation(FVector(BoatMeshComponent->GetComponentLocation().X, BoatMeshComponent->GetComponentLocation().Y, MaxBounceHeight));
+	// }
 }
 
 // Called to bind functionality to input

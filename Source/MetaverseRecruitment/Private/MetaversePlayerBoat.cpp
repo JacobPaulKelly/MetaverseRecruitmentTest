@@ -6,6 +6,7 @@
 #include "MetaversePlayerBoat.h"
 
 #include "CustomPlayerController.h"
+#include "Blueprint/UserWidget.h"
 
 AMetaversePlayerBoat::AMetaversePlayerBoat()
 {
@@ -127,6 +128,15 @@ void AMetaversePlayerBoat::Look(const FInputActionValue& Value)
     }
 }
 
+void AMetaversePlayerBoat::Pause(const FInputActionValue& Value)
+{
+    // WidgetInstance = CreateWidget(this, WidgetTemplate);
+    //
+    // WidgetInstance->AddToViewport();
+
+    GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, "Paused");
+}
+
 // Called every frame
 void AMetaversePlayerBoat::Tick(float DeltaTime)
 {
@@ -165,5 +175,6 @@ void AMetaversePlayerBoat::SetupPlayerInputComponent(UInputComponent* PlayerInpu
         EnhancedInputComponent->BindAction(BrakeReverseAction, ETriggerEvent::Completed, this, &AMetaversePlayerBoat::StoppedBrakeReverse);
         EnhancedInputComponent->BindAction(BrakeReverseAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::BrakeReverse);
         EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::Look);
+        EnhancedInputComponent->BindAction(PauseAction, ETriggerEvent::Started, this, &AMetaversePlayerBoat::Pause);
     }
 }

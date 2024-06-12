@@ -12,6 +12,7 @@
 class UInputMappingContext;
 class UInputAction;
 
+
 UCLASS()
 class METAVERSERECRUITMENT_API AMetaversePlayerBoat : public AMetaverseBaseBoat
 {
@@ -40,13 +41,16 @@ protected:
 	void StoppedBrakeReverse(const FInputActionValue& Value);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
 	UInputAction* BrakeReverseAction;
-
-	float CalculateSteeringStrength();
 	
 	void Look(const FInputActionValue& Value);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
 	UInputAction* LookAction;
+
+	void Pause(const FInputActionValue& Value);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
+	UInputAction* PauseAction;
 	
+	float CalculateSteeringStrength();
 	
 	virtual void Tick(float DeltaTime) override;
 	
@@ -55,6 +59,12 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UCameraComponent* CameraComponent;
+	
+	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)
+	// TSubclassOf<UUserWidget> WidgetTemplate;
+	//
+	// UPROPERTY()
+	// UUserWidget* WidgetInstance;
 
 private:
 	float AccelerationRate;
