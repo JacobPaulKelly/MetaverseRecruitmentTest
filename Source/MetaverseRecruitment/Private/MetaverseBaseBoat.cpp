@@ -21,19 +21,12 @@ AMetaverseBaseBoat::AMetaverseBaseBoat()
 
 	BoatMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Boat Mesh"));
 	BoatMeshComponent->SetupAttachment(Root);
-
-	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Springarm"));
-	SpringArmComponent->SetupAttachment(Root);
-
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(SpringArmComponent);
 }
 
 // Called when the game starts or when spawned
 void AMetaverseBaseBoat::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

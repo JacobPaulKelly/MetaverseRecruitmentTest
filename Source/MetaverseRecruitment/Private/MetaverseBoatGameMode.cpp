@@ -2,10 +2,9 @@
 
 
 #include "MetaverseBoatGameMode.h"
-
 #include "CustomPlayerController.h"
 #include "MetaversePlayerBoat.h"
-#include "MetaverBoatGameState.h"
+#include "MetaverseBoatGameState.h"
 #include "MetaverseBoatGameHUD.h"
 
 
@@ -15,7 +14,7 @@ AMetaverseBoatGameMode::AMetaverseBoatGameMode():AGameMode()
 	//setting all custom modes for game start.
 	PlayerControllerClass = ACustomPlayerController::StaticClass();
 	DefaultPawnClass = AMetaversePlayerBoat::StaticClass();
-	GameStateClass = AMetaverBoatGameState::StaticClass();
+	GameStateClass = AMetaverseBoatGameState::StaticClass();
 	HUDClass = AMetaverseBoatGameHUD::StaticClass();
 	ReplaySpectatorPlayerControllerClass = ACustomPlayerController::StaticClass();
 	SpectatorClass = nullptr;

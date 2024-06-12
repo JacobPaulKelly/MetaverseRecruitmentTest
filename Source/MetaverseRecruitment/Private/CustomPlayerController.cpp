@@ -6,5 +6,5 @@
 // Constructor to sets default values for this actor's properties.
 ACustomPlayerController::ACustomPlayerController()
 {
-	
+	AutoReceiveInput = EAutoReceiveInput::Player0;
 }

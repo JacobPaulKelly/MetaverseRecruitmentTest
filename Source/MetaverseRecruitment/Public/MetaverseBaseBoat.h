@@ -3,9 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "MetaverseBaseBoat.generated.h"
 
 UCLASS()
@@ -36,12 +34,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* BoatMeshComponent;
-
-	UPROPERTY()
-	USpringArmComponent* SpringArmComponent;
-
-	UPROPERTY()
-	UCameraComponent* CameraComponent;
 
 public:	
 	// Called every frame

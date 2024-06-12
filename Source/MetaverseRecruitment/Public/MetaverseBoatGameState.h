@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameState.h"
-#include "MetaverBoatGameState.generated.h"
+#include "MetaverseBoatGameState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class METAVERSERECRUITMENT_API AMetaverBoatGameState : public AGameState
+class METAVERSERECRUITMENT_API AMetaverseBoatGameState : public AGameState
 {
 	GENERATED_BODY()
 	
