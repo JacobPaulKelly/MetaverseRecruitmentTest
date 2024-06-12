@@ -46,16 +46,40 @@ void AMetaversePlayerBoat::BeginPlay()
 
 void AMetaversePlayerBoat::Accelerate(const FInputActionValue& Value)
 {
+    if (AccelerationRate < 0)
+    {
+        AccelerationRate = 0;
+    }
+
+    if (AccelerationRate >= 3)
+    {
+        AccelerationRate = 3;
+        return;
+    }
+    
     AccelerationRate += Value.GetMagnitude()*GetWorld()->DeltaTimeSeconds;
 }
 
 void AMetaversePlayerBoat::Steer(const FInputActionValue& Value)
 {
-    Root->SetRelativeRotation(FRotator(0, Root->GetRelativeRotation().Yaw + (Value.GetMagnitude() * GetWorld()->DeltaTimeSeconds)*10, 0));
+    UE_LOG(LogTemp, Warning, TEXT("%f"), Root->GetRelativeRotation().Yaw);
+    
+    Root->SetRelativeRotation(FRotator(0, Root->GetRelativeRotation().Yaw + Value.GetMagnitude(), 0));
 }
 
 void AMetaversePlayerBoat::BrakeReverse(const FInputActionValue& Value)
 {
+    if (AccelerationRate > 0)
+    {
+        AccelerationRate = 0;
+    }
+
+    if (AccelerationRate <= -3)
+    {
+        AccelerationRate = -3;
+        return;
+    }
+    
     AccelerationRate -= Value.GetMagnitude()*GetWorld()->DeltaTimeSeconds;
 }
 
@@ -77,10 +101,13 @@ void AMetaversePlayerBoat::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
+    //GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, TEXT("%f"), AccelerationRate);
+    UE_LOG(LogTemp, Warning, TEXT("%f"), AccelerationRate);
+    
     BoatMeshComponent->AddForce(((Root->GetForwardVector()*100000000000)*GetWorld()->DeltaTimeSeconds)* AccelerationRate);
     
     SetActorLocation(BoatMeshComponent->GetComponentLocation());
-    BoatMeshComponent->SetRelativeRotation(FRotator(Root->GetRelativeRotation().Pitch, Root->GetRelativeRotation().Yaw + 90, Root->GetRelativeRotation().Roll));
+    BoatMeshComponent->SetRelativeRotation(FRotator(0, Root->GetRelativeRotation().Yaw - 90, 0));
 }
 
 // Called to bind functionality to input
