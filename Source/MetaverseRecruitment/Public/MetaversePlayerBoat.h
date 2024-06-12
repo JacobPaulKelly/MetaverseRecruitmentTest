@@ -11,6 +11,7 @@
 
 class UInputMappingContext;
 class UInputAction;
+//class UUserWidget;
 
 
 UCLASS()
@@ -70,8 +71,6 @@ private:
 	float AccelerationRate;
 
 	bool IsAdjustingAcceleration;
-
-	bool IsReverseing;
 
 public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;

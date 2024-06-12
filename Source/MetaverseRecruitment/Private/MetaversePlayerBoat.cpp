@@ -6,11 +6,11 @@
 #include "MetaversePlayerBoat.h"
 
 #include "CustomPlayerController.h"
-#include "Blueprint/UserWidget.h"
+//#include "Blueprint/UserWidget.h"
 
 AMetaversePlayerBoat::AMetaversePlayerBoat()
 {
-    
+    //creating camera and spring arm, any changes to these are to be done in blueprints.
     SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Springarm"));
     SpringArmComponent->SetupAttachment(Root);
     SpringArmComponent->bUsePawnControlRotation = true;
@@ -23,8 +23,6 @@ AMetaversePlayerBoat::AMetaversePlayerBoat()
     AccelerationRate = 0;
 
     IsAdjustingAcceleration = false;
-
-    IsReverseing = false;
 }
 
 
@@ -103,6 +101,7 @@ void AMetaversePlayerBoat::StoppedBrakeReverse(const FInputActionValue& Value)
 
 float AMetaversePlayerBoat::CalculateSteeringStrength()
 {
+    //below causes turn speed to slow down as the boat gets faster and slower but keeps its standard during mid speeds
     if (AccelerationRate > 0.5)
     {
         return (1-(AccelerationRate/1.5))*100;
@@ -117,12 +116,12 @@ float AMetaversePlayerBoat::CalculateSteeringStrength()
 
 void AMetaversePlayerBoat::Look(const FInputActionValue& Value)
 {
-    // input is a Vector2D
+    // input is directly from the mouse
     FVector2D LookAxisVector = Value.Get<FVector2D>();
 
     if (Controller != nullptr)
     {
-        // add yaw and pitch input to controller
+        // add yaw and pitch input to controller for camera rotation
         AddControllerYawInput(LookAxisVector.X);
         AddControllerPitchInput(-LookAxisVector.Y);
     }
@@ -130,9 +129,13 @@ void AMetaversePlayerBoat::Look(const FInputActionValue& Value)
 
 void AMetaversePlayerBoat::Pause(const FInputActionValue& Value)
 {
+    //Attempting to spawn Widgets in blueprints
     // WidgetInstance = CreateWidget(this, WidgetTemplate);
     //
     // WidgetInstance->AddToViewport();
+    //CreateWidget(this,);
+
+    UE_LOG(LogTemp, Warning, TEXT("Paused"));
 
     GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, "Paused");
 }
@@ -156,7 +159,8 @@ void AMetaversePlayerBoat::Tick(float DeltaTime)
     SetActorLocation(BoatMeshComponent->GetComponentLocation());
     BoatMeshComponent->SetRelativeRotation(FRotator(0, Root->GetRelativeRotation().Yaw - 90, 0));
 
-    if (AccelerationRate != 0)
+    // Reduces AccelerationRate only when acceleration is not being touched and is not 0
+    if (AccelerationRate != 0 && !IsAdjustingAcceleration)
     {
         AccelerationRate -= AccelerationRate*(GetWorld()->DeltaTimeSeconds);
     }
@@ -167,6 +171,7 @@ void AMetaversePlayerBoat::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+    // Creating function binds from the enhanced input actions.
     if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
     {
         EnhancedInputComponent->BindAction(AccelerateAction, ETriggerEvent::Completed, this, &AMetaversePlayerBoat::StoppedAccelerate);

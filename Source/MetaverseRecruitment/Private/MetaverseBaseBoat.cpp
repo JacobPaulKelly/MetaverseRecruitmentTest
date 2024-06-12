@@ -19,6 +19,7 @@ AMetaverseBaseBoat::AMetaverseBaseBoat()
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	RootComponent = Root;
 
+	//Any changes on the mesh should be done in BP's
 	BoatMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Boat Mesh"));
 	BoatMeshComponent->SetupAttachment(Root);
 }
@@ -36,6 +37,7 @@ void AMetaverseBaseBoat::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Below did make boats bounce at seas level a bit.
 	// if (BoatMeshComponent->GetComponentLocation().Z < 0)
 	// {
 	// 	BoatMeshComponent->AddForce(FVector(0,0,185000000000)*GetWorld()->DeltaTimeSeconds);
@@ -57,7 +59,6 @@ void AMetaverseBaseBoat::Tick(float DeltaTime)
 void AMetaverseBaseBoat::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 	
 }
 

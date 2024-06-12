@@ -22,7 +22,7 @@ protected:
 	UPROPERTY(EditAnywhere, meta=(ClampMin = 0))
 	float Mass;
 	
-	
+	//Variables below are incase I want to make boats use steering behaviours.
 	FVector Position;
 	FVector Velocity;
 	FVector Acceleration;
@@ -35,7 +35,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* BoatMeshComponent;
 
-private:
+	//the below is for when sea level bouncing boats are wanted
+//private:
 	// const float MinBounceHeight = -300;
 	//
 	// const float MaxBounceHeight = 300;
