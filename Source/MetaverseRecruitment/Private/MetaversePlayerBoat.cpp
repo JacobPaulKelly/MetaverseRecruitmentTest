@@ -35,25 +35,21 @@ void AMetaversePlayerBoat::BeginPlay()
         }
     }
     
-    UE_LOG(LogTemp, Warning, TEXT("Controller Check"));
-    
     if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
     {
-        GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("successful controller")));
         if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
         {
             Subsystem->AddMappingContext(MappingContext, 0);
-            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("successful controller")));
         }
-        return;
     }
-    GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("failed")));
-    UE_LOG(LogTemp, Warning, TEXT("End Controller Check"));
 }
 
 void AMetaversePlayerBoat::Accelerate(const FInputActionValue& Value)
 {
 	const bool CurrentValue = Value.Get<bool>();
+
+    Root->SetWorldLocation(FVector(0,0,0));
+
 
     if (CurrentValue)
     {
@@ -64,11 +60,12 @@ void AMetaversePlayerBoat::Accelerate(const FInputActionValue& Value)
 void AMetaversePlayerBoat::Steer(const FInputActionValue& Value)
 {
     
+    UE_LOG(LogTemp, Warning, TEXT("Steering %f"),Value.GetMagnitude());
 }
 
 void AMetaversePlayerBoat::BrakeReverse(const FInputActionValue& Value)
 {
-    
+    UE_LOG(LogTemp, Warning, TEXT("Brake"));
 }
 
 void AMetaversePlayerBoat::Look(const FInputActionValue& Value)
@@ -80,15 +77,17 @@ void AMetaversePlayerBoat::Look(const FInputActionValue& Value)
     {
         // add yaw and pitch input to controller
         AddControllerYawInput(LookAxisVector.X);
-        AddControllerPitchInput(LookAxisVector.Y);
+        AddControllerPitchInput(-LookAxisVector.Y);
     }
+
+    //SpringArmComponent->GetRelativeRotation().Pitch+
 }
 
 // Called every frame
 void AMetaversePlayerBoat::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-    UE_LOG(LogTemp, Warning, TEXT("delta"));
+    
 }
 
 // Called to bind functionality to input
@@ -99,7 +98,8 @@ void AMetaversePlayerBoat::SetupPlayerInputComponent(UInputComponent* PlayerInpu
     if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
     {
         EnhancedInputComponent->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::Accelerate);
+        EnhancedInputComponent->BindAction(SteerAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::Steer);
+        EnhancedInputComponent->BindAction(BrakeReverseAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::BrakeReverse);
+        EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::Look);
     }
-    
-    //PlayerInputComponent->BindAction("IA_Accelerate", IE_Pressed, this, &AMetaversePlayerBoat::Accelerate);
 }

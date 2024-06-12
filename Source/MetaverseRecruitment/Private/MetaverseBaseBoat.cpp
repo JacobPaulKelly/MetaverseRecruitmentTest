@@ -27,6 +27,8 @@ AMetaverseBaseBoat::AMetaverseBaseBoat()
 void AMetaverseBaseBoat::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Root->SetWorldLocation(FVector(Root->GetComponentLocation().X,Root->GetComponentLocation().Y, 100));
 }
 
 // Called every frame
@@ -34,6 +36,10 @@ void AMetaverseBaseBoat::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (BoatMeshComponent->GetComponentLocation().Z < 0)
+	{
+		BoatMeshComponent->AddForce(FVector(0,0,185000000000)*GetWorld()->DeltaTimeSeconds);
+	}
 }
 
 // Called to bind functionality to input
@@ -41,5 +47,6 @@ void AMetaverseBaseBoat::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	
 }
 

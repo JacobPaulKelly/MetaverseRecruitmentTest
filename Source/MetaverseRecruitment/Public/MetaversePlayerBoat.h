@@ -22,17 +22,28 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	//Control Context
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputMappingContext* MappingContext;
 
+	//Control Inputs and function
+	void Accelerate(const FInputActionValue& Value);
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* AccelerateAction;
 	
-	void Accelerate(const FInputActionValue& Value);
 	void Steer(const FInputActionValue& Value);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
+	UInputAction* SteerAction;
+	
 	void BrakeReverse(const FInputActionValue& Value);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
+	UInputAction* BrakeReverseAction;
+	
 	void Look(const FInputActionValue& Value);
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
+	UInputAction* LookAction;
+	
+	
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditAnywhere)
