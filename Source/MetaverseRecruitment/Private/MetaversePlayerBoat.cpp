@@ -18,6 +18,12 @@ AMetaversePlayerBoat::AMetaversePlayerBoat()
     CameraComponent->SetupAttachment(SpringArmComponent);
 
     AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+    AccelerationRate = 0;
+
+    IsAdjustingAcceleration = false;
+
+    IsReverseing = false;
 }
 
 
@@ -46,41 +52,66 @@ void AMetaversePlayerBoat::BeginPlay()
 
 void AMetaversePlayerBoat::Accelerate(const FInputActionValue& Value)
 {
+    IsAdjustingAcceleration = true;
+    
     if (AccelerationRate < 0)
     {
         AccelerationRate = 0;
     }
 
-    if (AccelerationRate >= 3)
+    if (AccelerationRate > 1)
     {
-        AccelerationRate = 3;
-        return;
+        AccelerationRate = 1;
     }
     
     AccelerationRate += Value.GetMagnitude()*GetWorld()->DeltaTimeSeconds;
 }
 
+void AMetaversePlayerBoat::StoppedAccelerate(const FInputActionValue& Value)
+{
+    IsAdjustingAcceleration = false;
+}
+
 void AMetaversePlayerBoat::Steer(const FInputActionValue& Value)
 {
-    UE_LOG(LogTemp, Warning, TEXT("%f"), Root->GetRelativeRotation().Yaw);
-    
-    Root->SetRelativeRotation(FRotator(0, Root->GetRelativeRotation().Yaw + Value.GetMagnitude(), 0));
+    Root->SetRelativeRotation(FRotator(0, Root->GetRelativeRotation().Yaw + Value.GetMagnitude()*GetWorld()->DeltaTimeSeconds*CalculateSteeringStrength(), 0));
 }
 
 void AMetaversePlayerBoat::BrakeReverse(const FInputActionValue& Value)
 {
+    IsAdjustingAcceleration = true;
+    
     if (AccelerationRate > 0)
     {
         AccelerationRate = 0;
     }
 
-    if (AccelerationRate <= -3)
+    if (AccelerationRate < -1)
     {
-        AccelerationRate = -3;
-        return;
+        AccelerationRate = -1;
+    }
+
+    //Getting input and then smoothing it with delta time.
+    AccelerationRate -= Value.GetMagnitude()*GetWorld()->DeltaTimeSeconds;
+}
+
+void AMetaversePlayerBoat::StoppedBrakeReverse(const FInputActionValue& Value)
+{
+    IsAdjustingAcceleration = false;
+}
+
+float AMetaversePlayerBoat::CalculateSteeringStrength()
+{
+    if (AccelerationRate > 0.5)
+    {
+        return (1-(AccelerationRate/1.5))*100;
+    }
+    else if (AccelerationRate < 0.5 && AccelerationRate > -0.5)
+    {
+       return AccelerationRate*100;
     }
     
-    AccelerationRate -= Value.GetMagnitude()*GetWorld()->DeltaTimeSeconds;
+    return (-1-(AccelerationRate/1.5))*100;
 }
 
 void AMetaversePlayerBoat::Look(const FInputActionValue& Value)
@@ -101,13 +132,24 @@ void AMetaversePlayerBoat::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    //GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, TEXT("%f"), AccelerationRate);
-    UE_LOG(LogTemp, Warning, TEXT("%f"), AccelerationRate);
-    
-    BoatMeshComponent->AddForce(((Root->GetForwardVector()*100000000000)*GetWorld()->DeltaTimeSeconds)* AccelerationRate);
-    
+    //Stopping boat from going too fast
+    if (BoatMeshComponent->GetComponentVelocity().Length()<20000 && IsAdjustingAcceleration)
+    {
+        BoatMeshComponent->AddForce(((Root->GetForwardVector()*100000000000)*GetWorld()->DeltaTimeSeconds)*AccelerationRate);
+    }
+    else
+    {
+        BoatMeshComponent->AddForce(-BoatMeshComponent->GetComponentVelocity().GetSafeNormal2D()*100000000000*GetWorld()->DeltaTimeSeconds);
+    }
+
+    //ensuring that all components are facing the correct way and in the right place
     SetActorLocation(BoatMeshComponent->GetComponentLocation());
     BoatMeshComponent->SetRelativeRotation(FRotator(0, Root->GetRelativeRotation().Yaw - 90, 0));
+
+    if (AccelerationRate != 0)
+    {
+        AccelerationRate -= AccelerationRate*(GetWorld()->DeltaTimeSeconds);
+    }
 }
 
 // Called to bind functionality to input
@@ -117,8 +159,10 @@ void AMetaversePlayerBoat::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
     if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
     {
+        EnhancedInputComponent->BindAction(AccelerateAction, ETriggerEvent::Completed, this, &AMetaversePlayerBoat::StoppedAccelerate);
         EnhancedInputComponent->BindAction(AccelerateAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::Accelerate);
         EnhancedInputComponent->BindAction(SteerAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::Steer);
+        EnhancedInputComponent->BindAction(BrakeReverseAction, ETriggerEvent::Completed, this, &AMetaversePlayerBoat::StoppedBrakeReverse);
         EnhancedInputComponent->BindAction(BrakeReverseAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::BrakeReverse);
         EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMetaversePlayerBoat::Look);
     }

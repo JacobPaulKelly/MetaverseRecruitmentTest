@@ -36,9 +36,9 @@ protected:
 	UStaticMeshComponent* BoatMeshComponent;
 
 private:
-	const float MinBounceHeight = -300;
+	const float MinBounceHeight = -200;
 	
-	const float MaxBounceHeight = 300;
+	const float MaxBounceHeight = 00;
 
 public:	
 	// Called every frame

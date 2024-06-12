@@ -28,6 +28,7 @@ protected:
 
 	//Control Inputs and function
 	void Accelerate(const FInputActionValue& Value);
+	void StoppedAccelerate(const FInputActionValue& Value);
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* AccelerateAction;
 	
@@ -36,8 +37,11 @@ protected:
 	UInputAction* SteerAction;
 	
 	void BrakeReverse(const FInputActionValue& Value);
+	void StoppedBrakeReverse(const FInputActionValue& Value);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
 	UInputAction* BrakeReverseAction;
+
+	float CalculateSteeringStrength();
 	
 	void Look(const FInputActionValue& Value);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Input)
@@ -52,7 +56,12 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UCameraComponent* CameraComponent;
 
+private:
 	float AccelerationRate;
+
+	bool IsAdjustingAcceleration;
+
+	bool IsReverseing;
 
 public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
