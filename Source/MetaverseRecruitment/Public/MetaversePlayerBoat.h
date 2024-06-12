@@ -58,7 +58,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	USpringArmComponent* SpringArmComponent;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UCameraComponent* CameraComponent;
 	
 	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = UI)

@@ -1,10 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "MetaversePlayerBoat.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Components/InputComponent.h"
-#include "MetaversePlayerBoat.h"
-
 #include "CustomPlayerController.h"
 //#include "Blueprint/UserWidget.h"
 
@@ -135,9 +134,9 @@ void AMetaversePlayerBoat::Pause(const FInputActionValue& Value)
     // WidgetInstance->AddToViewport();
     //CreateWidget(this,);
 
-    UE_LOG(LogTemp, Warning, TEXT("Paused"));
-
-    GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, "Paused");
+    // UE_LOG(LogTemp, Warning, TEXT("Paused"));
+    //
+    // GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, "Paused");
 }
 
 // Called every frame
@@ -163,6 +162,11 @@ void AMetaversePlayerBoat::Tick(float DeltaTime)
     if (AccelerationRate != 0 && !IsAdjustingAcceleration)
     {
         AccelerationRate -= AccelerationRate*(GetWorld()->DeltaTimeSeconds);
+    }
+
+    if (BoatMeshComponent->GetComponentVelocity().Length()>500)
+    {
+        
     }
 }
 

@@ -2,6 +2,8 @@
 
 
 #include "MetaverseBaseBoat.h"
+#include "NiagaraComponent.h"
+
 
 // Constructor to sets default values for this actor's properties.
 AMetaverseBaseBoat::AMetaverseBaseBoat()

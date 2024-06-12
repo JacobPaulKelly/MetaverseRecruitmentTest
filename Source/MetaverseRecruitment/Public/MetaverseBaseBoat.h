@@ -32,7 +32,7 @@ protected:
 	UPROPERTY()
 	USceneComponent* Root;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UStaticMeshComponent* BoatMeshComponent;
 
 	//the below is for when sea level bouncing boats are wanted
